@@ -1,0 +1,55 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Tickets{% endblock %}
+
+{% block main %}
+    {% include 'admin/components/_nav_bar_show.html.twig' with {
+        'id': ticket.id,
+        'title': 'Warning',
+        'text': 'Are you sure you want to delete this ticket?',
+        'delete_path': 'app_admin_ticket_type_delete',
+        'edit_path': 'app_admin_ticket_type_edit'} %}
+
+    <div x-data="{...colors(), ...buttons()}" class="flex flex-col items-center w-7/12 mx-auto mt-20">
+        <div class="flex justify-between w-full border-b-2 border-[#ca8f53] pb-5">
+            <div>
+                <h1 class="text-[25px] font-bold" :class="primaryColor">Name</h1>
+                <p class="font-semibold text-[18px] py-1" :class="textColor">{{ ticket.name }}</p>
+            </div>
+
+            <div>
+                <h1 class="text-[25px] font-bold" :class="primaryColor">Festival</h1>
+                <a href="{{ path('app_admin_festival_show', {'id': ticket.festival.id}) }}">
+                    <p class="font-semibold text-[18px] py-1 cursor-pointer hover:opacity-80" :class="textColor">{{ ticket.festival.name }}</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="w-full mt-5 border-b-2 border-[#ca8f53] pb-5">
+            <h1 class="text-[25px] font-bold" :class="primaryColor">Description</h1>
+            <p class="font-semibold text-[18px] py-1" :class="textColor">{{ ticket.description }}</p>
+        </div>
+
+        <div class="w-full mt-5 border-b-2 border-[#ca8f53] pb-5">
+            <h1 class="text-[25px] font-bold" :class="primaryColor">Sale Period</h1>
+            <p class="font-semibold text-[18px] py-1" :class="textColor">{{ ticket.startSaleDate|date('d-M-Y, H:i') }} - {{ ticket.endSaleDate|date('d-M-Y, H:i') }}</p>
+        </div>
+
+        <div class="flex justify-between w-full mt-5 mb-5">
+            <div>
+                <h1 class="text-[25px] font-bold" :class="primaryColor">Sold</h1>
+                <p class="font-semibold text-[18px] py-1" :class="textColor">-</p>
+            </div>
+
+            <div>
+                <h1 class="text-[25px] font-bold" :class="primaryColor">Total</h1>
+                <p class="font-semibold text-[18px] py-1" :class="textColor">{{ ticket.totalTickets }}</p>
+            </div>
+
+            <div>
+                <h1 class="text-[25px] font-bold" :class="primaryColor">Price</h1>
+                <p class="font-semibold text-[18px] py-1" :class="textColor">{{ ticket.price }} {{ ticket.currency }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

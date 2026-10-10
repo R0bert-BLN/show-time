@@ -1,0 +1,28 @@
+<div class="flex flex-col gap-2 p-4 rounded-md shadow-sm"
+     x-data="{ quantity: 1 }">
+
+    <div class="flex justify-between items-start w-full">
+        <div class="flex flex-col">
+            <h1 class="text-xl font-bold text-[#ca8f53]">{{ ticket.name }}</h1>
+            <p class="text-base font-semibold text-gray-700 py-1">{{ ticket.price }} {{ ticket.currency }}</p>
+        </div>
+
+        <form action="{{ path('app_cart_add', {'id': ticket.id}) }}" method="POST">
+            <input type="hidden" name="quantity" :value="quantity">
+
+            <div class="flex items-center gap-2">
+                <div class="flex items-center">
+                    <button type="button" @click="quantity = Math.max(1, quantity - 1)" class="px-2 py-1 text-gray-600 cursor-pointer">-</button>
+                    <input type="text" x-model.number="quantity" class="w-12 text-center border-x text-gray-600" readonly>
+                    <button type="button" @click="quantity++" class="px-2 py-1 text-gray-600 cursor-pointer">+</button>
+                </div>
+
+                <button type="submit" class="py-1 px-3 font-semibold bg-[#ca8f53] text-[#202020] cursor-pointer rounded-md hover:opacity-80">
+                    Add
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <p class="text-[15px] text-gray-600 w-full mt-2">{{ ticket.description }}</p>
+</div>

@@ -1,0 +1,150 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Festivals{% endblock %}
+
+{% block main %}
+    {% include 'admin/components/_nav_bar_new.html.twig'%}
+
+    <div x-data="{...colors(), ...buttons()}" class="w-7/12 mx-auto mt-10">
+        {{ form_start(form) }}
+
+            <div>
+                {{ form_label(form.name, null, {
+                    'label_attr': {
+                        'class': 'text-[#ca8f53] text-[25px] font-bold'
+                    }})
+                }}
+
+                {{ form_widget(form.name, {
+                    'attr': {
+                        'placeholder': 'Enter festival name',
+                        'class': 'placeholder:text-[#6d6e6f] w-full py-2 focus:outline-none border-b-2 border-gray-400 focus:border-[#ca8f53] text-[#6d6e6f] text-[18px]'
+                    }})
+                }}
+
+                <div class="text-red-600">
+                    {{ form_errors(form.name) }}
+                </div>
+            </div>
+
+        <div class="mt-10">
+            {{ form_label(form.description, null, {
+                'label_attr': {
+                    'class': 'text-[#ca8f53] text-[25px] font-bold mt-10'
+                }})
+            }}
+
+            {{ form_widget(form.description, {
+                'attr': {
+                    'placeholder': 'Enter festival description',
+                    'class': 'placeholder:text-[#6d6e6f] mt-2 w-full h-30 p-2 focus:outline-none border-2 border-gray-400 focus:border-[#ca8f53] text-[#6d6e6f] text-[18px]'
+                }})
+            }}
+
+            <div class="text-red-600">
+                {{ form_errors(form.description) }}
+            </div>
+        </div>
+
+        <div class="flex justify-between">
+            <div class="flex flex-col">
+                {{ form_label(form.startDate, null, {
+                    'label_attr': {
+                        'class': 'text-[#ca8f53] text-[25px] font-bold mt-10'
+                    }})
+                }}
+
+                {{ form_widget(form.startDate, {
+                    'attr': {
+                        'class': 'mt-1 focus:outline-none border-b-2 border-gray-400 focus:border-[#ca8f53] text-[#6d6e6f] text-[18px]'
+                    }})
+                }}
+
+                <div class="text-red-600">
+                    {{ form_errors(form.startDate) }}
+                </div>
+            </div>
+
+            <div class="flex flex-col">
+                {{ form_label(form.endDate, null, {
+                    'label_attr': {
+                        'class': 'text-[#ca8f53] text-[25px] font-bold mt-10'
+                    }})
+                }}
+
+                {{ form_widget(form.endDate, {
+                    'attr': {
+                        'class': 'mt-1 focus:outline-none border-b-2 border-gray-400 focus:border-[#ca8f53] text-[#6d6e6f] text-[18px]'
+                    }})
+                }}
+
+                <div class="text-red-600">
+                    {{ form_errors(form.endDate) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col mt-3">
+            {{ form_label(form.location, null, {
+                'label_attr': {
+                    'class': 'text-[#ca8f53] text-[25px] font-bold mt-10'
+                }})
+            }}
+
+            {{ form_widget(form.location, {
+                'placeholder': 'Select festival location',
+                'attr': {
+                    'class': 'invalid:text-[#6d6e6f] py-2 focus:outline-none border-b-2 border-gray-400 focus:border-[#ca8f53] text-[#6d6e6f] text-[18px]'
+                }})
+            }}
+
+            <div class="text-red-600">
+                {{ form_errors(form.location) }}
+            </div>
+        </div>
+
+        <div class="mt-10" x-data="{...bandsSubForms(), ...buttons(), ...colors()}" x-init="init({{ form.bands|length }})">
+            <div class="flex justify-between mb-5">
+                <div>
+                    {{ form_label(form.bands, null, {
+                        'label_attr': {
+                            'class': 'text-[#ca8f53] text-[25px] font-bold mt-10'
+                        }})
+                    }}
+                </div>
+
+                <button type="button" @click="add()" :class="primary">Add</button>
+            </div>
+
+            <div x-ref="container">
+                {% for band in form.bands %}
+                    <div class="row flex justify-between items-center border-b-2 border-gray-400">
+                        <div>
+                            {% include 'admin/components/_band_subform.html.twig' with { band: band } %}
+                        </div>
+
+                        <button type="button" @click="remove($event)">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-[#ca8f53] cursor-pointer hover:opacity-80">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                            </svg>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <template x-ref="prototype">
+                {% include 'admin/components/_band_subform.html.twig' with { band: form.bands.vars.prototype } %}
+            </template>
+        </div>
+
+        <div class="flex justify-center mt-15 mb-10">
+            <button type="submit" :class="primary">{{ buttonText }}</button>
+        </div>
+
+        <div class="hidden">
+            {{ form_rest(form) }}
+        </div>
+
+        {{ form_end(form, {'render_rest': false}) }}
+    </div>
+{% endblock %}

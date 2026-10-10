@@ -1,0 +1,70 @@
+<details x-data="{...buttons(), ...colors()}" class="dropdown">
+    <summary :class="secondary">Filter</summary>
+    <ul class="dropdown-content bg-[#202020] rounded-box z-1 w-52 p-2 shadow-sm">
+        <li>
+            <div class="flex justify-between gap-2">
+                <div>
+                    {{ form_label(filterForm.minTickets, null, {
+                        'label_attr': {
+                            'class': 'text-[#ca8f53] text-[15px] font-bold'
+                        }})
+                    }}
+                    {{ form_widget(filterForm.minTickets, {
+                        'attr': {
+                            'class': 'input input-bordered w-full max-w-xs focus:outline-none bg-transparent border-b-2 border-gray-500 focus:border-[#ca8f53]',
+                        }}
+                    )}}
+                </div>
+
+                <div>
+                    {{ form_label(filterForm.maxTickets, null, {
+                        'label_attr': {
+                            'class': 'text-[#ca8f53] text-[15px] font-bold'
+                        }})
+                    }}
+                    {{ form_widget(filterForm.maxTickets, {
+                        'attr': {
+                            'class': 'input input-bordered w-full max-w-xs focus:outline-none bg-transparent border-b-2 border-gray-500 focus:border-[#ca8f53]',
+                        }}
+                    )}}
+                </div>
+            </div>
+        </li>
+
+        <li>
+            <div class="flex justify-between gap-2 mt-2">
+                <div>
+                    {{ form_label(filterForm.minPrice, null, {
+                        'label_attr': {
+                            'class': 'text-[#ca8f53] text-[15px] font-bold'
+                        }})
+                    }}
+                    {{ form_widget(filterForm.minPrice, {
+                        'attr': {
+                            'class': 'input input-bordered w-full max-w-xs focus:outline-none bg-transparent border-b-2 border-gray-500 focus:border-[#ca8f53]',
+                        }}
+                    )}}
+                </div>
+
+                <div>
+                    {{ form_label(filterForm.maxPrice, null, {
+                        'label_attr': {
+                            'class': 'text-[#ca8f53] text-[15px] font-bold'
+                        }})
+                    }}
+                    {{ form_widget(filterForm.maxPrice, {
+                        'attr': {
+                            'class': 'input input-bordered w-full max-w-xs focus:outline-none bg-transparent border-b-2 border-gray-500 focus:border-[#ca8f53]',
+                        }}
+                    )}}
+                </div>
+            </div>
+        </li>
+
+        <li class="mt-2">
+            <div class="flex justify-center">
+                <button type="submit" class="py-1 px-3 font-bold text-[#15px] bg-[#ca8f53] text-[#202020] cursor-pointer rounded-md hover:opacity-80">Filter</button>
+            </div>
+        </li>
+    </ul>
+</details>

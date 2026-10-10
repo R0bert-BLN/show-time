@@ -1,0 +1,11 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Admin Panel{% endblock %}
+
+{% block main %}
+    <nav x-data="{...buttons(), ...colors()}" class="flex justify-between items-center">
+        <h1 class="text-[35px] font-bold text-[#ca8f53]">Dashboard</h1>
+
+        <a href="{{ path('app_show-time') }}" :class="primary">View Site</a>
+    </nav>
+{% endblock %}

@@ -1,0 +1,3 @@
+<form x-ref="delete{{ id }}" method="post" action="{{ path(delete_path, {'id': id}) }}" class="hidden">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ id) }}">
+</form>

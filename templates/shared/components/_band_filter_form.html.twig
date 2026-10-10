@@ -1,0 +1,22 @@
+<details x-data="{...buttons(), ...colors()}" class="dropdown">
+    <summary :class="secondary">Filter</summary>
+    <ul class="dropdown-content bg-[#202020] rounded-box z-1 w-55 py-2 shadow-sm">
+        <li>
+            <div class="filter-controls">
+                <div class="genre-filter px-10">
+                    {{ form_label(filterForm.genres, null, {'label_attr': {'class': 'text-[#ca8f53] text-center text-[18px] font-bold mb-3 block'}}) }}
+
+                    <div class="text-white text-base font-medium">
+                        {{ form_widget(filterForm.genres) }}
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <li class="mt-2">
+            <div class="flex justify-center">
+                <button type="submit" class="py-1 px-3 font-bold text-[#15px] bg-[#ca8f53] text-[#202020] cursor-pointer rounded-md hover:opacity-80">Filter</button>
+            </div>
+        </li>
+    </ul>
+</details>

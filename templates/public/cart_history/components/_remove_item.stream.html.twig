@@ -1,0 +1,7 @@
+<turbo-stream action="remove" target="cart-item-{{ ticketTypeId }}"></turbo-stream>
+
+<turbo-stream action="replace" target="cart-total">
+    <template>
+        {% include 'public/cart_history/components/_cart_total.html.twig' with {'total': total} %}
+    </template>
+</turbo-stream>

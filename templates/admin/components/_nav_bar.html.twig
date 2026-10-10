@@ -1,0 +1,34 @@
+<nav x-data="{open: false}" class="flex flex-col">
+    {{ form_start(filterForm) }}
+
+    <div class="flex justify-between items-center">
+        <h1 class="text-[40px] font-bold text-[#ca8f53]">{{ title }}</h1>
+
+        <div x-data="buttons" class="flex gap-4" x-cloak>
+            {% set currentRoute = app.request.attributes.get('_route') %}
+
+            {% include componentForm with {filterForm: filterForm} %}
+
+            <button type="button" @click="open = !open" :class="secondary">Search</button>
+            <a href="{{ path(add_path) }}" class="{{ currentRoute starts with 'app_admin_ticket_payment' or currentRoute starts with 'app_admin_issued_ticket' ? 'hidden' : '' }}" :class="primary">Add</a>
+        </div>
+    </div>
+
+    <div x-show="open" class="flex justify-center mt-10 w-5/12 mx-auto" x-transition>
+        <div class="relative w-full">
+            {{ form_widget(filterForm.searchParam, {
+                'attr': {
+                    'placeholder': 'Search...',
+                    'class': 'placeholder:text-[#6d6e6f] w-full pl-5 pr-12 py-1 bg-transparent border-b-2 border-[#6d6e6f] text-[#6d6e6f] text-lg placeholder-[#98999c] focus:outline-none focus:border-[#ca8f53] transition-colors duration-300',}}
+            )}}
+
+            <button type="submit"  class="cursor-pointer absolute inset-y-0 right-0 flex items-center px-4 text-[#6d6e6f] hover:text-[#ca8f53] focus:text-[#ca8f53] focus:outline-none transition-colors">
+                <svg fill="currentColor" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    {{ form_end(filterForm) }}
+</nav>

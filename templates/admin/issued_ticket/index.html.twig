@@ -1,0 +1,52 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Tickets{% endblock %}
+
+{% block main %}
+    {% include 'admin/components/_nav_bar.html.twig' with {
+        title: 'Tickets',
+        add_path: 'app_admin_issued_ticket',
+        search_path: 'app_admin_issued_ticket',
+        filterForm: filterForm,
+        componentForm: 'admin/components/_ticket_issued_filter_form.html.twig'} %}
+
+    <div x-data="{...colors()}" class="flex justify-center w-5/6 mx-auto mt-15">
+        <a href="{{ path('app_admin_ticket_type') }}" class="text-[25px] font-semibold hover:opacity-80 cursor-pointer px-5" :class="textColor">TYPE</a>
+        <a href="{{ path('app_admin_ticket_payment') }}" class="text-[25px] font-semibold hover:opacity-80 border-x-2 border-[#ca8f53] cursor-pointer px-5" :class="textColor ">PAYMENT</a>
+        <a href="{{ path('app_admin_issued_ticket') }}" class="text-[25px] font-semibold hover:opacity-80 cursor-pointer px-5" :class="primaryColor">ISSUED</a>
+    </div>
+
+    <table x-data="{...tables(), ...colors(), ...buttons()}" class="w-5/6 mt-10 mx-auto" :class="table" x-cloak>
+        <thead>
+        <tr :class="row">
+            <th class="w-1/5" :class="headCell">QR Code</th>
+            <th class="w-1/5" :class="headCell">Ticket Type</th>
+            <th class="w-1/5" :class="headCell">Festival</th>
+            <th class="w-1/5" :class="headCell">Transaction</th>
+            <th class="w-1/5" :class="headCell">Date</th>
+            <th class="w-1/5" :class="headCell">Status</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for ticket in pagination %}
+            <tr :class="row">
+                <td :class="bodyCell">{{ ticket.qrCodeId }}</td>
+                <td :class="bodyCell">{{ ticket.ticketType.name}}</td>
+                <td :class="bodyCell">{{ ticket.ticketType.festival.name}}</td>
+                <td :class="bodyCell">{{ ticket.booking.transactionId|slice(0, 15) ~ '...' }}</td>
+                <td :class="bodyCell">{{ ticket.updatedAt|date('d-m-Y:H:i') }}</td>
+                <td class="text-[#ca8f53]" :class="bodyCell">{{ ticket.status.value|upper }}</td>
+            </tr>
+        {% else %}
+            <tr :class="row">
+                <td colspan="5" class="text-center" :class="bodyCell">No Data</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-[18px] text-gray-800 text-center mt-4">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Success{% endblock %}
+
+{% block body %}
+    <div>
+        <h1 class="text-[40px] font-bold text-[#ca8f53] text-center mt-20">Thank you for your purchase!</h1>
+        <p class="text-[25px] text-[#6d6e6f] text-center mt-5">
+            The payment was successful. You can <a href="{{ path('app_show-time') }}" class="text-[#ca8f53] hover:opacity-80 font-semibold cursor-pointer">close</a> this page now.
+        </p>
+    </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+<details x-data="{...buttons(), ...colors()}" class="dropdown">
+    <summary :class="secondary">Filter</summary>
+    <ul class="dropdown-content bg-[#202020] rounded-box z-1 w-52 p-2 shadow-sm">
+        <li>
+            <div>
+                <div class="mb-1 flex justify-center">
+                    {{ form_label(filterForm.status, null, {
+                        'label_attr': {
+                            'class': 'text-[#ca8f53] text-[15px] font-bold'
+                        }})
+                    }}
+                </div>
+                {{ form_widget(filterForm.status, {
+                    'attr': {
+                        'class': 'text-[#ca8f53] w-full max-w-xs focus:outline-none bg-white border-b-2 border-gray-500 focus:border-[#ca8f53]',
+                    }}
+                )}}
+            </div>
+        </li>
+
+        <li class="mt-2">
+            <div class="flex justify-center">
+                <button type="submit" class="py-1 px-3 font-bold text-[#15px] bg-[#ca8f53] text-[#202020] cursor-pointer rounded-md hover:opacity-80">Filter</button>
+            </div>
+        </li>
+    </ul>
+</details>

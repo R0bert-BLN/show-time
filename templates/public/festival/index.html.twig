@@ -1,0 +1,38 @@
+{% extends 'public/base.html.twig' %}
+
+{% block title %}Festivals{% endblock %}
+
+{% block content %}
+    <div class="w-full max-w-lg mx-auto px-4 mt-15 mb-15 flex justify-center items-center gap-5">
+        {{form_start(filterForm) }}
+
+        <div class="flex justify-between items-center w-[500px] gap-5">
+            <div class="relative w-full">
+                {{ form_widget(filterForm.searchParam, {
+                    'attr': {
+                        'placeholder': 'Search...',
+                        'class': 'placeholder:text-[#6d6e6f] w-full pl-5 pr-12 py-1 bg-transparent border-b-2 border-[#6d6e6f] text-[#6d6e6f] text-lg placeholder-[#98999c] focus:outline-none focus:border-[#ca8f53] transition-colors duration-300',}}
+                )}}
+
+                <button type="submit"  class="cursor-pointer absolute inset-y-0 right-0 flex items-center px-4 text-[#6d6e6f] hover:text-[#ca8f53] focus:text-[#ca8f53] focus:outline-none transition-colors">
+                    <svg fill="currentColor" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="hidden">
+                {% include 'shared/components/_public_festival_filter_form.html.twig' with {filterForm: filterForm} %}
+            </div>
+        </div>
+
+
+        {{ form_end(filterForm) }}
+    </div>
+
+    <div class="flex flex-col mx-auto gap-8 h-auto mb-15">
+        {% for festival in pagination %}
+            {% include 'public/components/_festival_row.html.twig' with {festival: festival} %}
+        {% endfor %}
+    </div>
+{% endblock %}

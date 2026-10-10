@@ -1,0 +1,75 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Tickets{% endblock %}
+
+{% block main %}
+    {% include 'admin/components/_nav_bar.html.twig' with {
+        title: 'Tickets',
+        add_path: 'app_admin_ticket_type_new',
+        search_path: 'app_admin_ticket_type',
+        filterForm: filterForm,
+        componentForm: 'shared/components/_ticket_type_filter_form.html.twig'} %}
+
+    <div x-data="{...colors()}" class="flex justify-center w-5/6 mx-auto mt-15">
+        <a href="{{ path('app_admin_ticket_type') }}" class="text-[25px] font-semibold hover:opacity-80 cursor-pointer px-5" :class="primaryColor">TYPE</a>
+        <a href="{{ path('app_admin_ticket_payment') }}" class="text-[25px] font-semibold hover:opacity-80 border-x-2 border-[#ca8f53] cursor-pointer px-5" :class="textColor">PAYMENT</a>
+        <a href="{{ path('app_admin_issued_ticket') }}" class="text-[25px] font-semibold hover:opacity-80 cursor-pointer px-5" :class="textColor">ISSUED</a>
+    </div>
+
+    <table x-data="{...tables(), ...colors(), ...buttons()}" class="w-5/6 mt-10 mx-auto" :class="table" x-cloak>
+        <thead>
+        <tr :class="row">
+            <th class="w-3/12" :class="headCell">Name</th>
+            <th class="w-1/5" :class="headCell">Festival</th>
+            <th class="w-1/5" :class="headCell">Price</th>
+            <th class="w-1/5" :class="headCell">Sold</th>
+            <th class="w-1/5" :class="headCell">Total</th>
+            <th class="w-1/5 text-right" :class="headCell">Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for ticket in pagination %}
+            <tr :class="row">
+                <td :class="bodyCell">
+                    <a class="hover:opacity-80" href="{{ path('app_admin_ticket_type_show', { 'id': ticket.id }) }}">{{ ticket.name }}</a>
+                </td>
+
+                <td :class="bodyCell">{{ ticket.festival.name }}</td>
+                <td :class="bodyCell">{{ ticket.price }} {{ ticket.currency }}</td>
+                <td :class="bodyCell">{{ ticket.getSoldTickets }}</td>
+                <td :class="bodyCell">{{ ticket.totalTickets }}</td>
+
+                <td class="flex justify-end gap-2" :class="bodyCell">
+                    <a href="{{ path('app_admin_ticket_type_edit', { 'id': ticket.id }) }}" class="text-[#d68839] hover:opacity-80">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                        </svg>
+                    </a>
+
+                    <button type="button" @click="$refs.confirmModal{{ ticket.id }}.showModal()" class="text-[#d68839] hover:opacity-80 cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                        </svg>
+                    </button>
+
+                    {% include 'shared/components/confirm_modal.html.twig' with {
+                        'id': ticket.id,
+                        'title': 'Warning',
+                        'text': 'Are you sure you want to delete this ticket?',
+                        'delete_path': 'app_admin_ticket_type_delete'
+                    } %}
+                </td>
+            </tr>
+        {% else %}
+            <tr :class="row">
+                <td colspan="5" class="text-center" :class="bodyCell">No Data</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-[18px] text-gray-800 text-center mt-4">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}

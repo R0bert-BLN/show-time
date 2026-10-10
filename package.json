@@ -1,0 +1,12 @@
+{
+  "devDependencies": {
+    "daisyui": "^5.0.43",
+    "esbuild": "^0.25.6"
+  },
+  "dependencies": {
+    "alpinejs": "^3.14.9"
+  },
+  "scripts": {
+    "alpine": "esbuild assets/js/alpine.js --bundle --outfile=public/build/alpine.js --watch=forever"
+  }
+}

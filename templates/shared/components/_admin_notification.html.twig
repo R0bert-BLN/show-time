@@ -1,0 +1,9 @@
+<div x-data="notification()" x-init="init()">
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div @click="close()" x-show="show" x-transition class="cursor-pointer fixed top-1/12 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-md px-4 py-2 bg-white shadow-lg flex flex-col justify-center items-center items-center">
+                <p class="text-[#ca8f53] text-[20px] font-bold">{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>

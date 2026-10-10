@@ -1,0 +1,33 @@
+<div x-data="{...buttons(), ...colors()}">
+    <nav class="flex justify-between items-center">
+        <button type="button" @click="history.back()" :class="secondary">Back</button>
+
+        <div class="flex gap-4">
+            <button type="button" @click="$refs.confirmModal{{ id }}.showModal()" :class="secondary">Delete</button>
+            <a href="{{ path(edit_path, {'id': id}) }}" :class="primary">Edit</a>
+        </div>
+    </nav>
+
+    <dialog x-ref="confirmModal{{ id }}" class="modal">
+        <div class="modal-box">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" :class="primaryColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </form>
+
+            <h3 class="text-lg font-bold text-[25px] text-center" :class="primaryColor">{{ title }}</h3>
+            <p class="py-4 text-[20px] text-white text-center">{{ text }}</p>
+
+            <div class="modal-action">
+                <button type="button" @click="$refs.delete{{ id }}.submit()" :class="primary">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </dialog>
+
+    {% include 'admin/components/_delete_form.html.twig' with {'id': id, 'delete_path': delete_path} %}
+</div>

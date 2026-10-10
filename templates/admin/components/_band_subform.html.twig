@@ -1,0 +1,79 @@
+{% set prototype = band %}
+
+<div class="flex gap-20 items-center mt-5">
+    <div class="flex flex-col w-2/3">
+         {{ form_label(prototype.band, null, {
+            'label_attr': {
+                'class': 'text-[#ca8f53] text-[20px] font-bold'
+            }})
+         }}
+
+        {{ form_widget(prototype.band, {
+            'placeholder': 'Select artist',
+            'attr': {
+                'class': 'invalid:text-[#6d6e6f] py-2 focus:outline-none border-b-2 border-gray-400 focus:border-[#ca8f53] text-[#6d6e6f] text-[15px]'
+            }})
+        }}
+
+        <div class="text-red-600">
+            {{ form_errors(prototype.band) }}
+        </div>
+    </div>
+
+    <div class="flex flex-col w-1/3">
+        {{ form_label(prototype.startTime, null, {
+            'label_attr': {
+                'class': 'text-[#ca8f53] text-[20px] font-bold'
+            }})
+        }}
+
+        {{ form_widget(prototype.startTime, {
+            'attr': {
+                'class': 'mt-1 focus:outline-none border-b-2 border-gray-400 focus:border-[#ca8f53] text-[#6d6e6f] text-[15px]'
+            }})
+        }}
+
+        <div class="text-red-600">
+            {{ form_errors(prototype.startTime) }}
+        </div>
+    </div>
+</div>
+
+<div class="flex gap-20 items-center mt-5 mb-5">
+    <div class="flex flex-col w-2/3">
+        {{ form_label(prototype.stage, null, {
+            'label_attr': {
+                'class': 'text-[#ca8f53] text-[20px] font-bold'
+            }})
+        }}
+
+        {{ form_widget(prototype.stage, {
+            'attr': {
+                'placeholder': 'Enter stage name',
+                'class': 'placeholder:text-[#6d6e6f] py-2 focus:outline-none border-b-2 border-gray-400 focus:border-[#ca8f53] text-[#6d6e6f] text-[15px]'
+            }})
+        }}
+
+        <div class="text-red-600">
+            {{ form_errors(prototype.stage) }}
+        </div>
+    </div>
+
+    <div class="flex flex-col w-1/3">
+        {{ form_label(prototype.endTime, null, {
+            'label_attr': {
+                'class': 'text-[#ca8f53] text-[20px] font-bold'
+            }})
+        }}
+
+        {{ form_widget(prototype.endTime, {
+            'attr': {
+                'class': 'mt-1 focus:outline-none border-b-2 border-gray-400 focus:border-[#ca8f53] text-[#6d6e6f] text-[15px]'
+            }})
+        }}
+
+        <div class="text-red-600">
+            {{ form_errors(prototype.endTime) }}
+        </div>
+    </div>
+</div>

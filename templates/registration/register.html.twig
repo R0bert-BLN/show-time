@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<div class="h-screen w-screen overflow-y-auto scrollbar-hide">
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <div class="w-full max-w-lg mx-auto mt-20 mb-20 px-6 flex flex-col">
+        <h1 class="text-[44px] mb-15 font-bold text-[#ca8f53] text-center">Register</h1>
+
+        <p class="text-[18px] mb-10 text-[#6d6e6f] text-center">Already have an account? <a class="text-[#ca8f53] font-bold cursor-pointer hover:opacity-80" href="{{ path('app_login') }}">Sign In</a></p>
+
+        {{ form_errors(registrationForm) }}
+
+        <form name="{{ registrationForm.vars.name }}" method="post" class="w-full space-y-6">
+            <div>
+                {{ form_row(registrationForm.firstName, {
+                    label_attr: { class: 'text-[#ca8f53] font-bold text-[25px]' },
+                    attr: {
+                        placeholder: 'Enter your first name',
+                        class: 'placeholder:text-[#6d6e6f] w-full py-2 bg-transparent focus:outline-none border-b-2 border-gray-300 focus:border-[#ca8f53] text-gray-700 text-lg'
+                    }
+                }) }}
+            </div>
+
+            <div>
+                {{ form_row(registrationForm.lastName, {
+                    label_attr: { class: 'text-[#ca8f53] font-bold text-[25px]' },
+                    attr: {
+                        placeholder: 'Enter your last name',
+                        class: 'placeholder:text-[#6d6e6f] w-full py-2 bg-transparent focus:outline-none border-b-2 border-gray-300 focus:border-[#ca8f53] text-gray-700 text-lg'
+                    }
+                }) }}
+            </div>
+
+            <div>
+                {{ form_row(registrationForm.email, {
+                    label_attr: { class: 'text-[#ca8f53] font-bold text-[25px]' },
+                    attr: {
+                        placeholder: 'Enter your email',
+                        class: 'placeholder:text-[#6d6e6f] w-full py-2 bg-transparent focus:outline-none border-b-2 border-gray-300 focus:border-[#ca8f53] text-gray-700 text-lg'
+                    }
+                }) }}
+            </div>
+
+            <div>
+                {{ form_row(registrationForm.plainPassword, {
+                    label: 'Password',
+                    label_attr: { class: 'text-[#ca8f53] font-bold text-[25px]' },
+                    attr: {
+                        placeholder: 'Enter your password',
+                        class: 'placeholder:text-[#6d6e6f] w-full py-2 bg-transparent focus:outline-none border-b-2 border-gray-300 focus:border-[#ca8f53] text-gray-700 text-lg'
+                    }
+                }) }}
+            </div>
+
+            <div class="pt-4">
+
+                <div class="flex justify-center">
+                    {{ form_widget(registrationForm.agreeTerms, {
+                        attr: {
+                            class: 'h-5 w-5 mt-0.5 rounded border-gray-400 text-[#ca8f53] focus:ring-[#c3905f]'
+                        }
+                    }) }}
+                    <div class="ml-3 text-[15px]">
+                        {{ form_label(registrationForm.agreeTerms, 'I agree to the', {
+                            'label_attr': {'class': 'text-gray-600'}
+                        }) }}
+                        <a href="#" class="font-semibold text-[#ca8f53] hover:text-[#c3905f]">Terms and Conditions</a>
+                    </div>
+                </div>
+                {{ form_errors(registrationForm.agreeTerms) }}
+            </div>
+
+            <div class="mt-10 flex justify-center">
+                <button class="text-[#202020] bg-[#ca8f53] py-2 px-4 rounded-md font-bold text-[18px] hover:opacity-80 cursor-pointer" type="submit">
+                    Sign Up
+                </button>
+            </div>
+
+            {{ form_rest(registrationForm) }}
+        </form>
+    </div>
+</div>
+{% endblock %}

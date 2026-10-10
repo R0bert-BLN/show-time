@@ -1,0 +1,9 @@
+workers:
+    tailwind:
+        cmd: ['symfony', 'console', 'tailwind:build', '--watch']
+
+    alpine:
+        cmd: ['npm', 'run', 'alpine']
+
+    messenger:
+        cmd: [ 'symfony', 'console', 'messenger:consume', 'async' ]

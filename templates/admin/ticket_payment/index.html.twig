@@ -1,0 +1,50 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Tickets{% endblock %}
+
+{% block main %}
+    {% include 'admin/components/_nav_bar.html.twig' with {
+        title: 'Tickets',
+        add_path: 'app_admin_ticket_payment',
+        search_path: 'app_admin_ticket_payment',
+        filterForm: filterForm,
+        componentForm: 'admin/components/_ticket_payment_filter_form.html.twig'} %}
+
+    <div x-data="{...colors()}" class="flex justify-center w-5/6 mx-auto mt-15">
+        <a href="{{ path('app_admin_ticket_type') }}" class="text-[25px] font-semibold hover:opacity-80 cursor-pointer px-5" :class="textColor">TYPE</a>
+        <a href="{{ path('app_admin_ticket_payment') }}" class="text-[25px] font-semibold hover:opacity-80 border-x-2 border-[#ca8f53] cursor-pointer px-5" :class="primaryColor">PAYMENT</a>
+        <a href="{{ path('app_admin_issued_ticket') }}" class="text-[25px] font-semibold hover:opacity-80 cursor-pointer px-5" :class="textColor">ISSUED</a>
+    </div>
+
+    <table x-data="{...tables(), ...colors(), ...buttons()}" class="w-5/6 mt-10 mx-auto" :class="table" x-cloak>
+        <thead>
+        <tr :class="row">
+            <th class="w-2/5" :class="headCell">Transaction</th>
+            <th class="w-1/5" :class="headCell">User</th>
+            <th class="w-1/5" :class="headCell">Date</th>
+            <th class="w-1/5" :class="headCell">Amount</th>
+            <th class="w-1/5" :class="headCell">Status</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for payment in pagination %}
+            <tr :class="row">
+                <td :class="bodyCell">{{ payment.transactionId|slice(0, 40) ~ '...' }}</td>
+                <td :class="bodyCell">{{ payment.user.email }}</td>
+                <td :class="bodyCell">{{ payment.updatedAt|date('d-m-Y:H:i') }}</td>
+                <td :class="bodyCell">{{ payment.cart.getTotalAmount|number_format(2, '.', ',')}} RON</td>
+                <td class="text-[#ca8f53]" :class="bodyCell">{{ payment.status.value|upper }}</td>
+            </tr>
+        {% else %}
+            <tr :class="row">
+                <td colspan="5" class="text-center" :class="bodyCell">No Data</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-[18px] text-gray-800 text-center mt-4">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}

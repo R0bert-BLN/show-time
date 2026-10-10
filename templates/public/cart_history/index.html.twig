@@ -1,0 +1,79 @@
+{% extends 'public/base.html.twig' %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+
+    <div class="w-2/6 mx-auto px-5 py-2 flex flex-col mt-10 mb-10">
+        <h1 class="text-[35px] text-[#ca8f53] font-bold text-center mb-5">My Cart</h1>
+
+        {% for item in cart %}
+            {% include 'public/cart_history/components/_cart_item_row.html.twig' with {'item': item} %}
+        {% else %}
+            <div id="cart-empty-message" class="flex justify-center items-center mt-10">
+                <p class="text-[25px] text-[#ca8f53] font-semibold">Cart is empty</p>
+            </div>
+        {% endfor %}
+
+        {% if cart is not empty %}
+            <div id="cart-total" class="flex justify-between items-center w-full py-4 px-6 my-3 border-[#ca8f53] border-b-2">
+                {% include 'public/cart_history/components/_cart_total.html.twig' with {'total': total} %}
+            </div>
+
+            {% if app.user is not null %}
+                <div class="flex justify-center">
+                    <button id="checkout-button" type="button" class="px-10 mt-3 py-2 font-bold text-[20px] bg-[#ca8f53] text-[#202020] cursor-pointer rounded-md hover:opacity-80">Checkout</button>
+                </div>
+            {% else %}
+                <div class="flex justify-center">
+                    <button onclick="guestModal.showModal()" type="button" class="px-10 mt-3 py-2 font-bold text-[20px] bg-[#ca8f53] text-[#202020] cursor-pointer rounded-md hover:opacity-80">Checkout</button>
+                </div>
+
+                <dialog id="guestModal" class="modal">
+                    <div class="modal-box bg-white">
+                        <div class="modal-action px-5">
+                            <form method="dialog">
+                                <button class="text-[#ca8f53] mr-5 cursor-pointer text-2xl font-bold hover:opacity-80 absolute right-2 top-2">✕</button>
+                            </form>
+                            <form method="dialog">
+                                <input type="text" id="guest-first-name" required placeholder="Enter your first name" class="placeholder:text-[#6d6e6f] mb-2 w-full py-2 bg-transparent focus:outline-none border-b-2 border-gray-300 focus:border-[#ca8f53] text-gray-700 text-lg"/>
+                                <input type="text" id="guest-last-name" required placeholder="Enter your last name" class="placeholder:text-[#6d6e6f] mb-2 w-full py-2 bg-transparent focus:outline-none border-b-2 border-gray-300 focus:border-[#ca8f53] text-gray-700 text-lg"/>
+                                <input type="email" id="guest-email" required placeholder="Enter your email" class="placeholder:text-[#6d6e6f] mb-2 w-full py-2 bg-transparent focus:outline-none border-b-2 border-gray-300 focus:border-[#ca8f53] text-gray-700 text-lg"/>
+
+                                <div class="flex justify-center items-center mt-5">
+                                    <button id="checkout-guest-button" class="px-6 mt-3 py-2 font-bold text-[15px] bg-[#ca8f53] text-[#202020] cursor-pointer rounded-md hover:opacity-80">Confirm</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </dialog>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <script>
+        const stripe = Stripe('{{ stripe_public_key }}');
+
+        {% if app.user is not null %}
+            document.getElementById('checkout-button').addEventListener('click', () => {
+                fetch('/checkout/session/create', {method: 'POST'})
+                    .then(res => res.json())
+                    .then(data => stripe.redirectToCheckout({ sessionId: data.id }));
+            });
+        {% else %}
+            document.getElementById('checkout-guest-button').addEventListener('click', () => {
+                const firstName = document.getElementById('guest-first-name').value;
+                const lastName = document.getElementById('guest-last-name').value;
+                const email = document.getElementById('guest-email').value;
+
+                fetch('/checkout/session/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ firstName, lastName, email })
+                })
+                    .then(res => res.json())
+                    .then(data => stripe.redirectToCheckout({ sessionId: data.id }));
+            });
+        {% endif %}
+    </script>
+{% endblock %}

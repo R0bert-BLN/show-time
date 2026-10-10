@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Panel{% endblock %}
+
+{% block body %}
+    {% include 'shared/components/_admin_notification.html.twig' %}
+
+    <aside class="fixed h-screen bg-[#202020] w-1/5 text-[#ca8f53] flex flex-col items-center justify-between">
+        <div class="flex flex-col items-center">
+            <h1 class="text-[35px] font-semibold mt-2">Show Time</h1>
+
+            <div class="flex flex-col items-center mt-12">
+                <div class="bg-[#2d2d2d] rounded-full flex justify-center items-center w-[100px] h-[100px]">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                         stroke-width="1.5" stroke="currentColor" class="size-20">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0
+                              1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z">
+                        </path>
+                    </svg>
+                </div>
+
+                <p class="text-[20px] font-[600] text-[#dcdcdc]">{{ app.user.firstName }} {{ app.user.lastName }}</p>
+            </div>
+        </div>
+
+        <nav x-data class="flex flex-col text-[22px] font-bold w-full my-auto" x-transition>
+            {% set currentRoute = app.request.attributes.get('_route') %}
+
+            <a href="{{ path('app_admin_dashboard') }}"
+               class="py-2  text-center hover:bg-[#2d2d2d] {{ currentRoute starts with 'app_admin_dashboard' ? 'bg-[#2d2d2d]' : '' }}">
+                Dashboard
+            </a>
+
+            <a href="{{ path('app_admin_festival') }}"
+               class="py-2 text-center hover:bg-[#2d2d2d] {{ currentRoute starts with 'app_admin_festival' ? 'bg-[#2d2d2d]' : '' }}">
+                Festivals
+            </a>
+
+            <a href="{{ path('app_admin_band') }}"
+               class="py-2 text-center hover:bg-[#2d2d2d] {{ currentRoute starts with 'app_admin_band' ? 'bg-[#2d2d2d]' : '' }}">
+               Bands
+            </a>
+
+            <a href="{{ path('app_admin_ticket_type') }}"
+               class="py-2 text-center hover:bg-[#2d2d2d] {{ currentRoute starts with 'app_admin_ticket' ? 'bg-[#2d2d2d]' : '' }}">
+                Tickets
+            </a>
+
+            <a @click.prevent="" href="{{ path('app_admin_staff') }}"
+               class="py-2 text-center hover:bg-[#2d2d2d] {{ currentRoute starts with 'app_admin_staff' ? 'bg-[#2d2d2d]' : '' }}">
+                Staff
+            </a>
+        </nav>
+
+        <div class="text-[22px] font-bold w-full flex mt-auto flex-col mb-5">
+            <a href="{{ path('app_logout') }}" class="py-2 text-center hover:bg-[#2d2d2d]">Logout</a>
+        </div>
+    </aside>
+
+    <main class="h-screen ml-[20%] overflow-y-auto px-20 py-10 bg-gray-100">
+        {% block main %}{% endblock %}
+    </main>
+{% endblock %}

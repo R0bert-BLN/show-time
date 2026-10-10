@@ -1,0 +1,9 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Staff{% endblock %}
+
+{% block main %}
+    {% include 'admin/components/_nav_bar.html.twig' with {
+        title: 'Staff',
+        add_path: 'app_admin_staff_new'} %}
+{% endblock %}
